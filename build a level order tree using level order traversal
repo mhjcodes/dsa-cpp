@@ -1,0 +1,89 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+class node{
+    public:
+       int data;
+       node* left;
+       node* right;
+    
+    node(int d){
+        this-> data = d;
+        this-> left = NULL;
+        this-> right = NULL;
+    }
+};
+
+void buildLevelOrderTree(node* &root){
+    
+    queue<node*> q;
+    cout<<"Enter data for root "<<endl;
+    int data;
+    cin >> data;
+    root = new node(data);
+    q.push(root);
+
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+
+
+        cout<<"Enter data for left node of"<< temp->data<<endl;
+        int leftNode;
+        cin>> leftNode;
+
+        if( leftNode != -1){
+            temp->left = new node(leftNode);
+            q.push(temp-> left);
+        }
+
+        cout<<"Enter data for left node of"<< temp->data<<endl;
+        int rightNode;
+        cin>> rightNode;
+
+        if( rightNode != -1){
+            temp->right= new node(rightNode);
+            q.push(temp-> right);
+        }
+        
+    }
+}
+void levelOrderTraversal(node* root){
+    // using queue data structure
+
+    queue<node*> q;
+    q.push(root);
+    q.push(NULL);  // for level 0
+
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+        if(temp == NULL){
+            // completion of level 
+            cout<<endl;
+
+            if(!q.empty()) // once a level is complete, already next level nodes are inserted
+            q.push(NULL) ;  // for next level
+        }
+        else{
+              
+              cout<< temp->data <<" ";
+              if( temp-> left)
+              q.push(temp-> left);
+
+              if( temp-> right)
+              q.push(temp-> right);
+        }
+
+    }
+}
+
+int main(){
+    node* root = NULL;
+    
+    // build a level order tree                1 3 5 7 11 17 -1 -1 -1 -1 -1 -1 -1 
+    buildLevelOrderTree(root); 
+    levelOrderTraversal(root);
+    
+    return 0;
+}
